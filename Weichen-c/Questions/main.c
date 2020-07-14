@@ -31,11 +31,12 @@ int main(int argc, const char * argv[]) {
     //char s[2]="hhhhhhhh";不可
 #if(0)
     char s[2];
+    
     scanf("%s",s);
     printf("%s\n",s);
 #endif
     
-    testStruct();
+    question1();
     return 0;
 }
 
@@ -112,12 +113,13 @@ int question3_1(int num){
     return question3_1(num-1)+question3_1(num-2);
 }
 
-int question4(){
-    while (getchar()!=' ') {
-        printf("%c",getchar()+4);
-    }
-    return 0;
-}
+//错
+//int question4(){
+//    while (getchar()!=' ') {
+//        printf("%c",getchar()+4);
+//    }
+//    return 0;
+//}
 
 int twoNumbers(){
     int a=20,b=100;
@@ -136,7 +138,7 @@ int twoNumbers(){
     a^=b;
 #endif
     a^=b^=a^=b;
-    printf("a=%d,b=%d\n",a,b);
+    printf("a=%d, b=%d\n",a,b);
     return 0;
     
 }
@@ -145,7 +147,7 @@ int twoNumbers(){
 int question5(){
     int arr[]={14,27,58,98,129,142,576,771,891,1149};
     int num,low=0,high=sizeof(arr)/sizeof(arr[0])-1,mid;
-    printf("Please input anumber between %d and %d!\n",arr[low],arr[high]);
+    printf("Please input a number between %d and %d!\n",arr[low],arr[high]);
     int flag=0;
     
 #if(0)
@@ -281,11 +283,12 @@ int copyStr4(char *str1,char *str2){ //可直接在循环判断条件内自增�
 
 //char类型指针小知识
 int testCharPointer(){
-    //这种方法无法赋值
+    //这种方法无法赋值（数组名不能赋值）
 //    char str[20];
 //    str="Super Smash Bro.";
     
     //指针可以赋值，存放的不是字符，是字符串第一个字符的地址
+    //字符常量
     char *str1;
     str1="Super Smash Bro.";
     
@@ -359,9 +362,9 @@ typedef char* PIN2;
 
 int testDefine(){
     
-    //define替换相当于 char *x,y  8  1
+    //define替换相当于 char *x,y  8  1（4  1）
     PIN1 x,y;
-    //typedef替换相当于类型重命名 char *a,*b  8  8
+    //typedef替换相当于类型重命名 char *a,*b  8  8（4  4）
     PIN2 a,b;
     
     printf("%d  %d\n",sizeof(x),sizeof(y));
@@ -378,6 +381,7 @@ int output1(){
     int n=0;
     
     A(A(A(printf("%d ",n++))));
+    //放了1000个printf("%d ",n++) 随后打印
 //    A(printf("%d ",n++));
     
     return 0;
@@ -485,6 +489,42 @@ int testStruct(){
     printf("name=%s,price=%g\n",(*pgame).name,(*pgame).price);
     
     printf("name=%s,price=%g\n",pgame->name,pgame->price);
+    return 0;
+}
+
+//输入字符串 字符 删除字符串中出现的相同字符
+int deleteChar(){
+    int i,j;
+    char s[30],ch;
+    gets(s);
+    ch=getchar();
+    
+    for (i=0,j=0; s[i]; i++) {
+        if (s[i]!=ch) {
+            s[j++]=s[i];
+        }
+    }
+    s[j]='\0';
+    puts(s);
+    
+    
+    return 0;
+}
+
+int deleteChar2(){
+    int i=0,j;
+    char s[30],ch;
+    gets(s);
+    ch=getchar();
+    
+    while (s[i]) {
+        if (s[i]==ch)
+            for (j=i; s[j]=s[j+1]; j++) ;
+        else
+            i++;
+    }
+    
+    puts(s);
     return 0;
 }
 

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
+#include <time.h>
 #define X "25"
 int main()
 {
@@ -13,8 +15,10 @@ int main()
     
 //    int a=10;
 //    testMethod(a,++a);
-    
-    testW4();
+//    int testLC();
+//    test0x();
+    int testW2();
+    testW2();
     return 0;
 }
 
@@ -110,6 +114,8 @@ int testChar(){
 int compareIntAndChar(){
     int i=33;
     char c=33;
+//    !,!
+//    33,33
     printf("%c,%c\n%d,%d\n",i,i,c,c);
     return 0;
 }
@@ -127,7 +133,8 @@ int test1(){
     int i=5,j=5,m,n;
     m=(i++)+(i++)+(i++);
     n=(++j)+(++j)+(++j);
-    printf("%-5d,%-5d,%-5d,%-5d",m,n,i,j);
+    printf("%-5d,%-5d,%-5d,%-5d\n",m,n,i,j);
+    //18   ,21   ,8    ,8
     return 0;
 }
 
@@ -156,7 +163,8 @@ int test3(){
     int a1,a2,b,c,d;
     //用逗号分开，最终的值是最后一个表达式的值
     b=2,c=7,d=5;
-    a1=(++b,c--,d+3);
+    //c--会执行完成，c++先给值，最后自增
+    a1=(++b,c--,c++);
     printf("a1=%d\n",a1);
     
     //赋值运算符比逗号运算符优先级高(最终表达式的值为d+3)
@@ -209,6 +217,7 @@ int testDoWhile(){
         sum+=i;
         i++;
     } while (i<=100);
+    //dowhile后面有分号
     printf("sum=%d\n",sum);
     return 0;
 }
@@ -278,16 +287,19 @@ int testRegister(){ //register通过将数据放入寄存器（CPU内），减�
     return 0;
 }
 
+
 //extern变量
 int testExtern(){
     //extern可以使用任意位置的全局变量（该代码下方或外部文件）
     //如果别的文件变量前用static不可调用
     //static的全局变量固定在本文件，别的文件无法调用
     extern xx;
+    printf("%d\n",xx);
+    //yy在函数下方，没加extern无法调用
     return 0;
 }
 
-//int xx=1,int yy=10;
+int xx=1,yy=10;
 
 //指针
 int testPointer(){
@@ -330,6 +342,10 @@ int OutPutArray(){
     for (p=arr; p<arr+10; p++) {
         printf("%d\n",*p);
     }
+    
+    for(p=arr;p<arr+10;p++){
+        printf("%d ",*p);
+    }
     return 0;
 }
 
@@ -337,9 +353,10 @@ int testPointer2(){
     int *p,i,a[10]={0,1,2,3,4,5,6,7,8,9};
     p=a;
     for (i=0; i<10; i++) {
-        printf("%d",p++);//先运算后自增
+        printf("%4d",*p++);//先运算后自增 先取*p的值再指向下一位
     }
     printf("\n");
+    p=a;
     for (i=0; i<10; i++,p++) {
         printf("%12d",*p);
     }
@@ -407,7 +424,7 @@ int testW2(){
 
 //循环移位
 int testW3(){
-    char num=65,n=3,a,b;
+    char num=65,n=5,a,b;
     int length=sizeof(num)*8;
     a=~0>>n;
     b=num&a;
@@ -426,3 +443,128 @@ int testW4(){
     printf("%d\n",num);
     return 0;
 }
+
+#define MA(x) x*(x-1)
+
+int testh(){
+    int a=1,b=2;
+    printf("%d\n",MA(1+a+b));
+    return 0;
+}
+
+
+int testNULL(){
+//    printf("%d\n",NuLL);
+    return 0;
+}
+
+int testFOR(){
+    char *s="\ta\018bc";//  6
+//    char *s="\ta\015bc";  5
+//    char *s="\ta\0156c";  5
+    for (; *s!='\0'; s++) {
+        printf("*");
+    }
+    printf("\n");
+    return 0;
+}
+
+int testp(){
+    char *p="pascal";
+    //++p,p+1指向s，s+1 %c输出t
+    printf("%c\n",*(++p+1)+1);
+    return 0;
+}
+
+int testch(){
+    char ch[5]={"693"},*p1;
+    int j,s=0;
+    p1=&ch[0];
+    for (j=0; p1[j]>=0&&p1[j]<='9'; j+=2) {
+        s=10*s+p1[j];//54 540+51
+    }
+    printf("%d\n",s);
+    return 0;
+}
+
+int test0x(){
+    char c='\xcc';
+    //以8进制输出
+    printf("%c\n",c);
+    return 0;
+}
+
+int testGets(){
+    char a[20],b[20],c[20];
+    scanf("%s%s",a,b);
+    gets(c);//This is a cat!
+    printf("%s%s%s",a,b,c);//Thisis a cat!
+    
+    return 0;
+}
+
+int testStruct(){
+    struct {
+        int a;         //4
+        double b;      //8
+        char c;        //1
+    } s1;
+    printf("%d\n",sizeof(s1));//24 三个各自一行
+    
+    struct {
+        int a;         //4
+        char c;        //1
+        double b;      //8
+    } s2;
+    printf("%d\n",sizeof(s2));//16 上两个一行 double一行
+    
+    
+    struct {
+        int a;         //4
+        char c;        //1
+        short s;       //2
+        double b;        //8
+    } s4;
+    printf("%d\n",sizeof(s4));//16 上三个一行 double一行
+    return 0;
+}
+
+int testpp(){
+    int a=1,b=5,c;
+    c=(b++,a++,b++);
+    //逗号运算符前面表达式运算结束后执行后面表达式
+    //c结果为6 最后一个逗号前面运算 1.(b++)自增运算 2.(a++)自增运算 3.(b++)先将b值赋给c b再自增
+    printf("a=%d\nb=%d\nc=%d\n",a,b,c);
+    //a=2 b=7 c=6
+    return 0;
+}
+
+int testm(){
+    int a,b,c,*p1,*p2,*p3;
+    a=5;b=7;c=3;
+    p1=&a;
+    p2=&b;
+    p3=&c;
+    fun(p1,p2,p3);
+    printf("%d,%d,%d\n",a,b,c);
+    return 0;
+}
+
+int fun(int *a,int *b,int *c){
+    int *temp;
+    temp=a;
+    a=b;
+    b=temp;
+    *temp=*b,*b=*c,*c=*temp;
+    return 0;
+}
+
+
+int testq6(){
+    int i,j,k,x;
+    x=(i=4,j=16,k=32);
+    printf("%d",x);
+    return 0;
+}
+
+
